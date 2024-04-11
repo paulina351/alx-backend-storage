@@ -1,8 +1,4 @@
 -- a SQL script that lists all bands with Glam rock
 -- as their main style, ranked by their longevity
-USE holberton;
-CREATE TABLE IF NOT EXISTS metal_bands (
-    band_name VARCHAR(255) NOT NULL,
-    lifespan VARCHAR(255) NOT NULL
-);
-INSERT INTO metal_bands(lifespan) VALUES('formed', 'spilt');
+SELECT band_name, (IFNULL(split, 2022) - formed) AS lifespan FROM metal_bands WHERE
+ style LIKE '%GLAM rock%' ORDER BY lifespan DESC;

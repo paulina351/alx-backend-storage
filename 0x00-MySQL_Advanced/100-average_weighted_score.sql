@@ -1,18 +1,28 @@
 -- a SQL script that creates a stored procedure
 -- ComputeAverageWeightedScoreForUser that computes 
 -- and store the average weighted score for a student.
-CREATE [DEFINER = { user | CURRENT_USER }]
-PROCEDURE sp_name ([proc_parameter[,...]])
-[characteristic ...] routine_body
-proc_parameter: [ IN | OUT | INOUT ] param_name type
-type:
-Any valid MySQL data type
-characteristic:
-COMMENT 'string'
-| LANGUAGE SQL
-| [NOT] DETERMINISTIC
-| { CONTAINS SQL | NO SQL | READS SQL DATA
-| MODIFIES SQL DATA }
-| SQL SECURITY { DEFINER | INVOKER }
-routine_body:
-Valid SQL routine statement
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
+DELIMITER $$
+CREATE PROCEDURE ComputeAverageWeightedScoreForUser;
+BEGIN
+    DECLARE total_weighted_score INT DEFAULTS 0;
+    DECLARE total_weight INT DEFAULT 0;
+
+    SELECT SUM(corrections.score * projects.weight)
+        INTO total_weighted_score
+	FROM corrections
+	    INNER JOIN projects
+	        ON corrections.user_id = user_id;
+	WHERE corrections.user_id = user_id;
+
+    IF total_weight = 0 THEN
+	UPDATE users
+	    SET users.average_score = 0
+	    WHERE users.id = user_id;
+    ELSE
+	UPDATE users
+	    SET users.average_score = total_weighted_score / total_weight
+	    WHERE users.id = user_id;
+    END IF;
+END $$
+DELIMITER ;

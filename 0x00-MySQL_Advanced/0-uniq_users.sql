@@ -1,9 +1,7 @@
 -- A SQL Script that creates a table users
 USE `holberton`;
 CREATE TABLE IF NOT EXISTS users (
-    id int NOT NULL AUTO_INCREMENT,
-    email varchar(255) NOT NULL,
-    name varchar(255),
-    PRIMARY KEY (id),
-    UNIQUE (email)
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email varchar(255) NOT NULL UNIQUE,
+    name varchar(255)
 );
