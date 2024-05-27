@@ -5,7 +5,7 @@ import requests
 import redis
 from functools import wraps
 from typing import Callable
-redis_clent = redis.Redis()
+redis_client = redis.Redis()
 
 
 def url_count(method: Callable) -> Callable:
